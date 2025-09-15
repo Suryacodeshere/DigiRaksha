@@ -1,4 +1,5 @@
 import axios from 'axios';
+import offlineQAService from './offlineQAService.js';
 
 class ChatGPTService {
   constructor() {
@@ -164,18 +165,51 @@ class ChatGPTService {
           errorDetails = data.error || data.message;
         }
       } else if (error.request) {
-        // Network error
+        // Network error - try offline response
         if (error.code === 'ECONNREFUSED') {
-          errorMessage = '🔌 Cannot connect to AI service. The backend server may not be running.';
+          errorMessage = '🔌 Cannot connect to AI service. Trying offline mode...';
           errorDetails = `Connection refused to ${this.baseURL}`;
         } else if (error.code === 'ENOTFOUND') {
-          errorMessage = '🌐 Network error. Please check your internet connection.';
+          errorMessage = '🌐 Network error. Trying offline mode...';
           errorDetails = 'DNS resolution failed';
         } else {
-          errorMessage = '📶 Network error. Unable to reach the AI service.';
+          errorMessage = '📶 Network error. Trying offline mode...';
+        }
+        
+        // Try to get offline response
+        console.log('Backend unavailable, attempting offline response...');
+        const offlineResponse = offlineQAService.getOfflineResponse(message);
+        if (offlineResponse.success) {
+          return {
+            success: true,
+            message: offlineResponse.message,
+            model: 'Offline Mode',
+            offline: true,
+            matchType: offlineResponse.matchType,
+            confidence: offlineResponse.confidence,
+            category: offlineResponse.category,
+            timestamp: offlineResponse.timestamp,
+            responseTime
+          };
         }
       } else {
         errorMessage = '😵 Unexpected error occurred while contacting AI service.';
+      }
+
+      // If offline response also fails, try one more time
+      console.log('Trying offline response as final fallback...');
+      const finalOfflineResponse = offlineQAService.getOfflineResponse(message);
+      if (finalOfflineResponse.success) {
+        return {
+          success: true,
+          message: finalOfflineResponse.message + '\n\n⚠️ Note: I\'m currently working in offline mode with limited capabilities.',
+          model: 'Offline Mode',
+          offline: true,
+          matchType: finalOfflineResponse.matchType,
+          confidence: finalOfflineResponse.confidence,
+          timestamp: finalOfflineResponse.timestamp,
+          responseTime
+        };
       }
 
       return {

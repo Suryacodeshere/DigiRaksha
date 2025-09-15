@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MessageCircle, X, Send, Bot, User, AlertCircle, Loader, Trash2, Download, Flag, Shield, Search, QrCode 
 } from 'lucide-react';
 import chatgptService from '../services/chatgptService';
+import offlineQAService from '../services/offlineQAService';
 import DigiRakshaLogo from './DigiRakshaLogo';
 import './AssistantWidget.css';
 // Emoji fallback components for better visibility
@@ -100,7 +101,9 @@ Quick Start: Try the suggestion buttons below, or ask me specific questions like
 • What are the warning signs of digital payment fraud?
 • What are the best digital payment safety tips?
 
-💡 Pro Tip: I provide detailed, actionable advice based on RBI guidelines and cybersecurity best practices. Your safety is my priority!`,
+💡 **Smart Offline Mode**: I can answer 20+ trained UPI security questions even when offline! Your trained responses are always available.
+
+💯 Pro Tip: I provide detailed, actionable advice based on RBI guidelines and cybersecurity best practices. Your safety is my priority!`,
       timestamp: new Date(),
     };
     setMessages([welcomeMessage]);
@@ -162,14 +165,25 @@ Quick Start: Try the suggestion buttons below, or ask me specific questions like
         };
         setMessages(prev => [...prev, assistantMessage]);
       } else {
-        // Fallback to local intelligent responses if backend fails
-        const fallbackResponse = getIntelligentResponse(currentMessage, conversationContext);
+        // Fallback to offline Q&A service first, then intelligent responses
+        const offlineResponse = offlineQAService.getOfflineResponse(currentMessage);
+        let fallbackContent;
+        
+        if (offlineResponse.success) {
+          fallbackContent = offlineResponse.message + (offlineResponse.offline ? '\n\n📱 Working in offline mode with trained responses.' : '');
+        } else {
+          fallbackContent = getIntelligentResponse(currentMessage, conversationContext);
+        }
+        
         const assistantMessage = {
           id: `assistant-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           type: 'assistant',
-          content: fallbackResponse,
+          content: fallbackContent,
           timestamp: new Date(),
-          model: 'Digi Raksha AI Assistant (Offline Mode)',
+          model: offlineResponse.success ? 'Digi Raksha AI (Offline Mode)' : 'Digi Raksha AI Assistant (Local)',
+          offline: offlineResponse.offline || false,
+          matchType: offlineResponse.matchType || 'local',
+          confidence: offlineResponse.confidence || 'medium'
         };
         setMessages(prev => [...prev, assistantMessage]);
       }
@@ -177,15 +191,26 @@ Quick Start: Try the suggestion buttons below, or ask me specific questions like
     } catch (error) {
       console.error('❌ Assistant Error:', error);
       
-      // Use local intelligent response as fallback
+      // Use offline Q&A service as primary fallback, then local intelligent response
       try {
-        const fallbackResponse = getIntelligentResponse(currentMessage, conversationContext);
+        const offlineResponse = offlineQAService.getOfflineResponse(currentMessage);
+        let fallbackContent;
+        
+        if (offlineResponse.success) {
+          fallbackContent = offlineResponse.message + '\n\n📱 Working in offline mode with trained security responses.';
+        } else {
+          fallbackContent = getIntelligentResponse(currentMessage, conversationContext);
+        }
+        
         const assistantMessage = {
           id: `assistant-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           type: 'assistant',
-          content: fallbackResponse,
+          content: fallbackContent,
           timestamp: new Date(),
-          model: 'Digi Raksha AI Assistant (Offline Mode)',
+          model: offlineResponse.success ? 'Digi Raksha AI (Offline Mode)' : 'Local Assistant',
+          offline: offlineResponse.offline || true,
+          matchType: offlineResponse.matchType || 'local',
+          confidence: offlineResponse.confidence || 'medium'
         };
         setMessages(prev => [...prev, assistantMessage]);
       } catch (fallbackError) {
@@ -783,13 +808,13 @@ Try the quick suggestion buttons below, or ask me a specific question!`;
             <div className="chat-header-right">
               <div className="chat-status">
                 <span className="status-indicator">
-                  {serviceAvailable === true ? '�︢' : 
-                   serviceAvailable === false ? '🔴' : 
+                  {serviceAvailable === true ? '🟢' : 
+                   serviceAvailable === false ? '🟡' : 
                    '🔄'}
                 </span>
                 <span>
                   {serviceAvailable === true ? 'Online' : 
-                   serviceAvailable === false ? 'Offline' : 
+                   serviceAvailable === false ? 'Offline Mode' : 
                    'Connecting...'}
                 </span>
               </div>

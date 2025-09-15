@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Offline QA Service</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .question { font-weight: bold; color: #0066cc; }
+        .answer { margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 4px; }
+        .match-info { font-size: 0.9em; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Offline Q&A Service Test</h1>
+    
+    <div id="results"></div>
+
+    <script type="module">
+        import offlineQAService from './src/services/offlineQAService.js';
+
+        const testQuestions = [
+            "How can I check if a payment request is safe?",
+            "How can I make my UPI account more secure?",
+            "What should I do if I lose my SIM card?",
+            "Can I cancel a UPI payment after sending it?",
+            "What are common social media payment scams?",
+            "Is it safe to use public wifi for payments?",
+            "How to secure my UPI account?", // Variation
+            "What to do if payment failed but money deducted?", // Variation
+            "Hello how are you?", // Non-security question
+            "What's the weather like today?" // Unrelated question
+        ];
+
+        function displayResults() {
+            const resultsDiv = document.getElementById('results');
+            
+            testQuestions.forEach((question, index) => {
+                const response = offlineQAService.getOfflineResponse(question);
+                
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test';
+                
+                testDiv.innerHTML = `
+                    <div class="question">Q${index + 1}: ${question}</div>
+                    <div class="answer">
+                        <strong>Answer:</strong><br>
+                        ${response.message?.replace(/\n/g, '<br>') || 'No response'}
+                    </div>
+                    <div class="match-info">
+                        <strong>Status:</strong> ${response.success ? '✅ Success' : '❌ Failed'}<br>
+                        <strong>Match Type:</strong> ${response.matchType || 'N/A'}<br>
+                        <strong>Confidence:</strong> ${response.confidence || 'N/A'}<br>
+                        <strong>Offline Mode:</strong> ${response.offline ? '📱 Yes' : '🌐 No'}
+                    </div>
+                `;
+                
+                resultsDiv.appendChild(testDiv);
+            });
+
+            // Add category information
+            const categoriesDiv = document.createElement('div');
+            categoriesDiv.className = 'test';
+            categoriesDiv.innerHTML = `
+                <div class="question">Available Categories:</div>
+                <div class="answer">
+                    ${offlineQAService.getCategories().join(', ')}
+                </div>
+            `;
+            resultsDiv.appendChild(categoriesDiv);
+        }
+
+        // Run tests when page loads
+        displayResults();
+    </script>
+</body>
+</html>

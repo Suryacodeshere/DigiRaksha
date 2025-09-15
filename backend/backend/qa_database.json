@@ -1,0 +1,297 @@
+[
+  {
+    "id": 0,
+    "question": "How can I make my UPI account more secure?",
+    "answer": "Use a strong UPI PIN, never share it, enable app lock or biometric login, and regularly check your linked bank statements.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "security",
+    "keywords": [
+      "more",
+      "upi",
+      "secure",
+      "account",
+      "make"
+    ]
+  },
+  {
+    "id": 1,
+    "question": "Should I log out of my payment app after every transaction?",
+    "answer": "Most apps are secured with PIN/biometric, so logging out each time is not necessary. However, always secure your phone with a lock screen.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "security",
+    "keywords": [
+      "after",
+      "every",
+      "out",
+      "payment",
+      "transaction",
+      "app",
+      "log"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "How do I know if my phone has been hacked for payments?",
+    "answer": "Signs include unknown apps installed, unusual SMS about transactions, faster battery drain, or money deductions you didn't authorize.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "security",
+    "keywords": [
+      "payments",
+      "been",
+      "know",
+      "phone",
+      "hacked",
+      "has"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "What should I do if I lose my SIM card linked to my bank?",
+    "answer": "Block your SIM immediately by calling the telecom provider. Then inform your bank to prevent misuse.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "emergency",
+    "keywords": [
+      "sim",
+      "linked",
+      "card",
+      "lose",
+      "bank"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Is it safe to use public Wi-Fi for online payments?",
+    "answer": "No. Public Wi-Fi can be unsafe. Use mobile data or a secured private network for financial transactions.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "security",
+    "keywords": [
+      "use",
+      "payments",
+      "safe",
+      "public",
+      "online"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Why did my digital payment fail even though money was deducted?",
+    "answer": "This happens due to network or server issues. The amount is usually reversed to your account within 3–5 working days.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "technical",
+    "keywords": [
+      "even",
+      "money",
+      "deducted",
+      "fail",
+      "payment",
+      "digital",
+      "though"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "How can I confirm if the money has reached the right person?",
+    "answer": "Check the transaction status in your payment app. You should also confirm with the recipient directly.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "transaction",
+    "keywords": [
+      "reached",
+      "money",
+      "confirm",
+      "person",
+      "has",
+      "right"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "What details should I check before sending money online?",
+    "answer": "Always verify the recipient's name, phone number, or UPI ID before confirming payment.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "transaction",
+    "keywords": [
+      "money",
+      "check",
+      "details",
+      "online",
+      "before",
+      "sending"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "How long does it take for a failed transaction to be refunded?",
+    "answer": "Generally within 3–5 working days, depending on your bank and payment app.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "refund",
+    "keywords": [
+      "take",
+      "long",
+      "refunded",
+      "transaction",
+      "failed"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Can I cancel a UPI payment after sending it?",
+    "answer": "No. Once a UPI payment is successful, it cannot be cancelled. You must request the recipient to refund if sent by mistake.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "transaction",
+    "keywords": [
+      "after",
+      "payment",
+      "upi",
+      "sending",
+      "cancel"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "What are common social media payment scams?",
+    "answer": "Scams include fake shopping offers, lottery/prize claims, job offers requiring a \"registration fee,\" or impersonation of friends asking for money.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "fraud",
+    "keywords": [
+      "media",
+      "scams",
+      "social",
+      "payment",
+      "common"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "Why should I not share screenshots of my payment online?",
+    "answer": "Screenshots may contain sensitive details like transaction ID, phone number, or partial account details that fraudsters can misuse.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "privacy",
+    "keywords": [
+      "not",
+      "screenshots",
+      "payment",
+      "online",
+      "share"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Can someone misuse my bank account number if I share it?",
+    "answer": "Sharing only an account number is usually safe for receiving money. But fraudsters may use it for phishing attempts. Avoid sharing additional details like OTP or PIN.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "privacy",
+    "keywords": [
+      "number",
+      "account",
+      "someone",
+      "share",
+      "misuse",
+      "bank"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "What are fake job or part-time work scams involving payments?",
+    "answer": "Fraudsters offer fake jobs and ask for advance fees, deposits, or \"training charges.\" Once paid, they disappear.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "fraud",
+    "keywords": [
+      "scams",
+      "payments",
+      "job",
+      "work",
+      "fake",
+      "involving",
+      "time",
+      "part"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "How can I avoid investment scams online?",
+    "answer": "Invest only through licensed platforms. Avoid schemes promising unusually high returns. Always verify the company's authenticity.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "fraud",
+    "keywords": [
+      "investment",
+      "avoid",
+      "scams",
+      "online"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "What documents should I keep ready while reporting payment fraud?",
+    "answer": "Keep transaction ID, bank/payment app statement, screenshots, fraudster's contact details, and your ID proof.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "reporting",
+    "keywords": [
+      "while",
+      "reporting",
+      "keep",
+      "payment",
+      "fraud",
+      "documents",
+      "ready"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Can I report digital payment fraud without going to the police station?",
+    "answer": "Yes. In India, you can report online at cybercrime.gov.in or call 1930. Other countries have their own online complaint portals.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "reporting",
+    "keywords": [
+      "station",
+      "report",
+      "payment",
+      "without",
+      "police",
+      "digital",
+      "fraud",
+      "going"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "What should I do if someone threatens me for online payment?",
+    "answer": "Do not pay. Collect proof (messages, calls) and immediately report to police and the cybercrime helpline.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "emergency",
+    "keywords": [
+      "payment",
+      "someone",
+      "online",
+      "threatens"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "Is there insurance coverage for online payment fraud?",
+    "answer": "Some banks and digital wallets provide fraud protection or cyber insurance. Check with your bank or insurer for details.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "insurance",
+    "keywords": [
+      "payment",
+      "there",
+      "coverage",
+      "online",
+      "fraud",
+      "insurance"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "How do I freeze my bank account in case of fraud?",
+    "answer": "Call your bank's customer care or visit the nearest branch to request an immediate freeze. This stops further unauthorized transactions.",
+    "created_at": "2025-09-15T13:36:21.623681",
+    "category": "emergency",
+    "keywords": [
+      "bank",
+      "case",
+      "fraud",
+      "account",
+      "freeze"
+    ]
+  }
+]
