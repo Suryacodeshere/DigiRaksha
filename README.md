@@ -1,6 +1,8 @@
-# 🛡️ UPI Guard - Fraud Detection App
+# 🛡️ Digi Raksha - UPI Security & Fraud Detection App
 
-A comprehensive React-based UPI fraud detection application that helps users stay safe from payment frauds through community-driven reporting and AI-powered assistance.
+**Your Personal Digital Payment Guardian with Offline AI Assistant**
+
+A comprehensive React-based UPI fraud detection application that helps users stay safe from payment frauds through community-driven reporting and **offline-capable AI assistance**.
 
 ## ✨ Features
 
@@ -12,7 +14,9 @@ A comprehensive React-based UPI fraud detection application that helps users sta
 - **Phone Number Fraud Check** - Report and check fraudulent phone numbers
 - **Payment Link Verification** - Verify the safety of payment links and UPI URLs
 - **Fraud Reporting System** - Community-driven fraud reporting with severity levels
+- **🤖 Offline AI Assistant** - Works without internet! 20+ trained UPI security Q&As
 - **AI Support Chat** - 24/7 AI assistant providing fraud prevention guidance
+- **Smart Offline Mode** - Instant responses for security questions even when offline
 
 ### User Features
 - **User Authentication** - Secure login/signup system
@@ -113,11 +117,46 @@ Navigate to `http://localhost:5173`
 - Set severity levels (1-5 scale)
 - Help protect the community
 
-### 7. AI Support
+### 7. AI Support (NEW: Offline Capable!)
+- **📱 Works Offline**: 20+ trained UPI security Q&As available without internet
+- **⚡ Instant Responses**: Zero latency for trained questions
+- **🤖 Smart Matching**: Understands question variations and provides exact answers
 - 24/7 intelligent chat assistance
 - Get fraud prevention tips
 - Access emergency helpline numbers
 - Learn about UPI safety best practices
+
+#### Offline Questions You Can Ask:
+- "How can I check if a payment request is safe?"
+- "How can I make my UPI account more secure?"
+- "What should I do if I lose my SIM card linked to my bank?"
+- "Can I cancel a UPI payment after sending it?"
+- "What are common social media payment scams?"
+- "Is it safe to use public Wi-Fi for online payments?"
+- And 14+ more security questions!
+
+## 📱 Offline AI Features (NEW!)
+
+### 🆕 Complete Offline Capability
+- **20+ Trained Q&As**: All stored locally in the browser
+- **Smart Text Matching**: Semantic similarity without internet
+- **Zero Latency**: Instant responses for security questions
+- **Privacy First**: No data sent to external servers when offline
+- **Mobile Friendly**: Perfect for areas with poor connectivity
+
+### 🤖 How Offline Mode Works
+1. **Primary**: Try backend API (when online)
+2. **Fallback 1**: Offline trained Q&A database (your 20 questions)
+3. **Fallback 2**: Local intelligent pattern responses
+4. **Visual Indicator**: Shows 🟡 "Offline Mode" when backend unavailable
+
+### 🎯 Trained Categories
+- **Security**: UPI account protection, PIN safety
+- **Emergency**: Lost SIM, fraud threats, account freezing
+- **Troubleshooting**: Failed transactions, refund timelines
+- **Fraud Types**: Social media scams, fake jobs, investment frauds
+- **Reporting**: Document preparation, cybercrime portals
+- **Privacy**: Screenshot sharing, account number safety
 
 ## 🛡️ Safety Features
 
@@ -162,7 +201,10 @@ The app includes demo data for testing:
 - **Styling**: CSS3, Flexbox, Grid
 - **Icons**: Lucide React
 - **QR Scanning**: html5-qrcode
-- **Backend**: Firebase (optional)
+- **Offline AI**: Custom JavaScript service with semantic text matching
+- **Backend**: Python Flask with AI models (optional)
+- **Database**: Firebase (optional), Local storage for offline data
+- **AI Models**: Sentence transformers, emotional intelligence, semantic search
 
 ## 📞 Emergency Contacts
 
