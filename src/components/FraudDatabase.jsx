@@ -14,7 +14,7 @@ import {
   Shield,
   RefreshCw
 } from 'lucide-react';
-import fraudDB from '../services/fraudDatabase';
+import cloudFraudDB from '../services/cloudFraudDatabase';
 
 const FraudDatabase = () => {
   const [reports, setReports] = useState([]);
@@ -29,28 +29,34 @@ const FraudDatabase = () => {
     loadData();
   }, [searchQuery, categoryFilter, riskFilter]);
 
-  const loadData = () => {
+  const loadData = async () => {
     setLoading(true);
     
-    // Simulate loading delay for better UX
-    setTimeout(() => {
+    try {
       let filteredReports;
       
       if (searchQuery || categoryFilter || riskFilter) {
-        filteredReports = fraudDB.searchReports(searchQuery, categoryFilter || null, riskFilter || null);
+        filteredReports = await cloudFraudDB.searchReports(searchQuery, categoryFilter || null, riskFilter || null);
       } else {
-        filteredReports = fraudDB.getRecentReports(100);
+        filteredReports = await cloudFraudDB.getRecentReports(100);
       }
       
+      const stats = await cloudFraudDB.getStatistics();
+      
       setReports(filteredReports);
-      setStatistics(fraudDB.getStatistics());
+      setStatistics(stats);
       setLoading(false);
-    }, 300);
+    } catch (error) {
+      console.error('Error loading fraud database data:', error);
+      setReports([]);
+      setStatistics({});
+      setLoading(false);
+    }
   };
 
-  const refreshData = () => {
-    fraudDB.updateReportsFeed();
-    loadData();
+  const refreshData = async () => {
+    // Cloud database updates reports automatically, just reload data
+    await loadData();
   };
 
   const formatTimeAgo = (timestamp) => {

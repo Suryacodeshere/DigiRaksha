@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { updateProfile, updatePassword, signOut } from 'firebase/auth';
 import { ref, set, get } from 'firebase/database';
 import { auth, database } from '../config/firebase';
+import cloudAuthService from '../services/cloudAuthService';
 import { User, Mail, Lock, Save, LogOut, Shield, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import { userStatsService } from '../services/userStatsService';
 import { userDB } from '../services/userDatabase';
@@ -88,50 +89,29 @@ const UserProfile = ({ user, onLogout }) => {
 
     setLoading(true);
     try {
-      // Check if it's a demo user (stored in localStorage)
-      const demoUser = localStorage.getItem('demoUser');
-      if (demoUser) {
-        // Update demo user in localStorage
-        const userData = JSON.parse(demoUser);
-        userData.displayName = formData.name.trim();
-        userData.updatedAt = Date.now();
-        localStorage.setItem('demoUser', JSON.stringify(userData));
-        
-        // Update the current user object reference
-        user.displayName = formData.name.trim();
-      } else {
-        // Try Firebase Auth profile update
-        try {
-          await updateProfile(user, {
-            displayName: formData.name.trim()
-          });
-
-          // Update database record
-          const userRef = ref(database, `users/${user.uid}`);
-          await set(userRef, {
-            uid: user.uid,
-            name: formData.name.trim(),
-            email: formData.email,
-            updatedAt: Date.now(),
-            ...userStats
-          });
-        } catch (firebaseErr) {
-          console.warn('Firebase not available, updating locally:', firebaseErr);
-          // For local users, update in userDB if available
-          if (window.userDB) {
-            window.userDB.updateUser(user.email, {
-              displayName: formData.name.trim(),
-              updatedAt: Date.now()
-            });
-          }
+      // Update profile using cloud authentication service
+      const profileUpdates = {
+        fullName: formData.name.trim(),
+        profile: {
+          ...user.profile,
+          lastUpdated: Date.now()
         }
-      }
+      };
+
+      const updatedUser = await cloudAuthService.updateUserProfile(user.email, profileUpdates);
+      
+      // Update local storage cache
+      localStorage.setItem('demoUser', JSON.stringify(updatedUser));
+      
+      // Update the current user object reference
+      user.fullName = formData.name.trim();
+      user.displayName = formData.name.trim();
 
       setAlert({
         isOpen: true,
         type: 'success',
         title: '✓ Profile Updated Successfully!',
-        message: `Hello ${formData.name.trim()}! Your profile information has been updated successfully.`
+        message: `Hello ${formData.name.trim()}! Your profile information has been updated successfully and synced to the cloud.`
       });
     } catch (err) {
       console.error('Profile update error:', err);
@@ -155,36 +135,21 @@ const UserProfile = ({ user, onLogout }) => {
 
     setLoading(true);
     try {
-      const result = await emailService.sendPasswordResetEmail(user.email);
+      const result = await cloudAuthService.resetPassword(user.email);
       
-      if (result.success) {
-        let message = `We've sent a password reset link to ${user.email}. Please check your inbox and follow the instructions to reset your password.`;
-        
-        if (result.method === 'demo') {
-          message += `\n\n🚀 Demo Mode: Check the browser console for the reset link.`;
-        }
-        
-        setAlert({
-          isOpen: true,
-          type: 'success',
-          title: '✅ Password Reset Email Sent!',
-          message
-        });
-      } else {
-        setAlert({
-          isOpen: true,
-          type: 'error',
-          title: 'Reset Failed',
-          message: result.message || 'Unable to send password reset email. Please try again.'
-        });
-      }
+      setAlert({
+        isOpen: true,
+        type: 'success',
+        title: '✅ Password Reset Requested!',
+        message: result.message
+      });
     } catch (err) {
       console.error('Password reset error:', err);
       setAlert({
         isOpen: true,
         type: 'error',
         title: 'Reset Failed',
-        message: 'Unable to send password reset email. Please try again.'
+        message: err.message || 'Unable to process password reset. Please try again.'
       });
     } finally {
       setLoading(false);

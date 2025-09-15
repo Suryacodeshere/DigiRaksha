@@ -1,7 +1,7 @@
-import fraudDB from './fraudDatabase';
+import cloudFraudDB from './cloudFraudDatabase';
 import { userStatsService } from './userStatsService';
 
-// UPI ID Safety Checker Services - Now uses fraud database
+// UPI ID Safety Checker Services - Now uses cloud fraud database
 export const checkUpiSafety = async (upiId, userId = null) => {
   try {
     // Normalize the identifier
@@ -17,8 +17,8 @@ export const checkUpiSafety = async (upiId, userId = null) => {
       identifier = upiId.replace(/[.#$[\]]/g, '_');
     }
     
-    // Get data from fraud database
-    const result = fraudDB.getFraudData(identifier);
+    // Get data from cloud fraud database (async)
+    const result = await cloudFraudDB.getFraudData(identifier);
     
     // Track user stats if userId provided
     if (userId) {
@@ -46,7 +46,7 @@ export const checkUpiSafety = async (upiId, userId = null) => {
   }
 };
 
-// Report Fraud Services - Now uses fraud database
+// Report Fraud Services - Now uses cloud fraud database
 export const reportFraud = async (upiId, reportData, userId = null) => {
   try {
     // Normalize the identifier based on type
@@ -59,8 +59,8 @@ export const reportFraud = async (upiId, reportData, userId = null) => {
       identifier = upiId.replace(/[.#$[\]]/g, '_');
     }
     
-    // Add report to fraud database
-    const report = fraudDB.addFraudReport(identifier, {
+    // Add report to cloud fraud database (async)
+    const report = await cloudFraudDB.addFraudReport(identifier, {
       ...reportData,
       reportedBy: reportData.reporterContact || 'Anonymous'
     });
@@ -89,11 +89,11 @@ export const reportFraud = async (upiId, reportData, userId = null) => {
   }
 };
 
-// Recent Reports Feed Services - Now uses fraud database
-export const getRecentReports = (callback, limit = 20) => {
+// Recent Reports Feed Services - Now uses cloud fraud database
+export const getRecentReports = async (callback, limit = 20) => {
   try {
-    const reports = fraudDB.getRecentReports(limit);
-    setTimeout(() => callback(reports), 100);
+    const reports = await cloudFraudDB.getRecentReports(limit);
+    callback(reports);
   } catch (error) {
     console.error('Error getting recent reports:', error);
     callback([]);

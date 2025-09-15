@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { ref, set } from 'firebase/database';
 import { auth, database } from '../config/firebase';
-import { Mail, Lock, User, Eye, EyeOff, UserPlus } from 'lucide-react';
+import cloudAuthService from '../services/cloudAuthService';
+import { Mail, Lock, User, Eye, EyeOff, UserPlus, Phone } from 'lucide-react';
 import DigiRakshaLogo from './DigiRakshaLogo';
 
 const Signup = ({ onSignup, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: ''
   });
@@ -38,6 +40,21 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
       setError('Email is required');
       return false;
     }
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    if (formData.phone && formData.phone.trim()) {
+      // Validate phone format (optional field)
+      const phoneRegex = /^[\+]?[1-9][\d]{9,14}$/;
+      const cleanPhone = formData.phone.replace(/[\s\-\(\)]/g, '');
+      if (!phoneRegex.test(cleanPhone)) {
+        setError('Please enter a valid phone number');
+        return false;
+      }
+    }
     if (!formData.password) {
       setError('Password is required');
       return false;
@@ -59,50 +76,32 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
 
     setLoading(true);
     try {
-      // Try Firebase first
+      // Use cloud authentication service
+      const userData = {
+        email: formData.email.toLowerCase().trim(),
+        password: formData.password,
+        fullName: formData.name.trim(),
+        phone: formData.phone.trim() || null
+      };
+
       try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth, 
-          formData.email, 
-          formData.password
-        );
+        const registeredUser = await cloudAuthService.registerUser(userData);
         
-        await updateProfile(userCredential.user, {
-          displayName: formData.name.trim()
-        });
-
-        const userData = {
-          uid: userCredential.user.uid,
-          name: formData.name.trim(),
-          email: formData.email,
-          createdAt: Date.now(),
-          profileComplete: true
-        };
-
-        await set(ref(database, `users/${userCredential.user.uid}`), userData);
-        onSignup(userCredential.user);
-        return;
-      } catch (firebaseError) {
-        console.warn('Firebase not configured, using demo mode');
-      }
-      
-      // Demo mode - local user database registration
-      const userDBModule = await import('../services/userDatabase');
-      try {
-        const registeredUser = userDBModule.userDB.registerUser({
-          name: formData.name.trim(),
-          email: formData.email,
-          password: formData.password
-        });
-
-        // Persist session
+        // Set user data in localStorage for session management
         localStorage.setItem('demoUser', JSON.stringify(registeredUser));
         localStorage.setItem('demoUserLoggedIn', 'true');
-
+        
         onSignup(registeredUser);
         return;
-      } catch (regErr) {
-        setError(regErr.message || 'Registration failed');
+      } catch (cloudAuthError) {
+        console.log('Cloud auth error:', cloudAuthError.message);
+        
+        // Handle specific error for existing user
+        if (cloudAuthError.message.includes('already exists')) {
+          setError('An account with this email already exists. Please login instead.');
+        } else {
+          setError(cloudAuthError.message);
+        }
         return;
       }
     } catch (err) {
@@ -159,6 +158,21 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
               placeholder="Enter your email"
               disabled={loading}
               required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">
+              <Phone size={16} />
+              Phone Number (Optional)
+            </label>
+            <input
+              type="tel"
+              className="form-input"
+              value={formData.phone}
+              onChange={(e) => handleChange('phone', e.target.value)}
+              placeholder="Enter your phone number"
+              disabled={loading}
             />
           </div>
 
