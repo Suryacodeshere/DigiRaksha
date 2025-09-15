@@ -1,0 +1,35 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Head/Face Circle -->
+  <circle cx="32" cy="28" r="16" fill="#F4C2A1" stroke="#D4A574" stroke-width="1"/>
+  
+  <!-- Hair -->
+  <path d="M18 22 Q16 18 20 16 Q24 14 28 16 Q32 14 36 16 Q40 14 44 16 Q48 18 46 22 Q44 20 40 22 Q36 20 32 22 Q28 20 24 22 Q20 20 18 22" fill="#8B4513"/>
+  
+  <!-- Eyes -->
+  <circle cx="27" cy="26" r="3" fill="white"/>
+  <circle cx="37" cy="26" r="3" fill="white"/>
+  <circle cx="27" cy="26" r="1.5" fill="black"/>
+  <circle cx="37" cy="26" r="1.5" fill="black"/>
+  
+  <!-- Eyebrows -->
+  <path d="M23 21 Q27 19 29 21" stroke="black" stroke-width="1.5" fill="none"/>
+  <path d="M35 21 Q39 19 41 21" stroke="black" stroke-width="1.5" fill="none"/>
+  
+  <!-- Nose -->
+  <ellipse cx="32" cy="30" rx="1" ry="1.5" fill="#E6A882"/>
+  
+  <!-- Mouth -->
+  <path d="M28 34 Q32 37 36 34" stroke="black" stroke-width="1.5" fill="none"/>
+  
+  <!-- Body (Yellow T-shirt) -->
+  <rect x="22" y="44" width="20" height="16" rx="2" fill="#FFD700"/>
+  <rect x="20" y="46" width="24" height="14" rx="2" fill="#FFC107"/>
+  
+  <!-- Arms -->
+  <rect x="16" y="48" width="6" height="8" rx="3" fill="#F4C2A1"/>
+  <rect x="42" y="48" width="6" height="8" rx="3" fill="#F4C2A1"/>
+  
+  <!-- Hands/Waving gesture -->
+  <circle cx="19" cy="52" r="3" fill="#F4C2A1"/>
+  <circle cx="45" cy="52" r="3" fill="#F4C2A1"/>
+</svg>

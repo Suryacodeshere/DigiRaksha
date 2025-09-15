@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Button Arrow Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            box-shadow: 
+                0 4px 16px rgba(59, 130, 246, 0.25),
+                0 2px 8px rgba(59, 130, 246, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .send-arrow-icon {
+            display: inline-block !important;
+            color: white !important;
+            font-size: 18px !important;
+            line-height: 1 !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .arrow-display {
+            font-size: 24px;
+            margin: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Send Button Arrow Test</h1>
+        
+        <div class="test-section">
+            <h3>1. Raw Arrow Characters:</h3>
+            <div class="arrow-display">Right Arrow: → (U+2192)</div>
+            <div class="arrow-display">Black Arrow: ➤ (U+27A4)</div>
+            <div class="arrow-display">Heavy Arrow: ➜ (U+279C)</div>
+            <div class="arrow-display">Triangle Arrow: ▶ (U+25B6)</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>2. Send Button Test:</h3>
+            <p>This should show a blue circle with a white arrow inside:</p>
+            
+            <button class="send-btn" title="Send message">
+                <span class="send-arrow-icon">↑</span>
+            </button>
+            
+            <p style="margin-top: 10px;">
+                <strong>Expected:</strong> Blue circular button with white "→" arrow<br>
+                <strong>If you see only blue circle:</strong> There's a CSS or font rendering issue
+            </p>
+        </div>
+        
+        <div class="test-section">
+            <h3>3. Alternative Arrows in Buttons:</h3>
+            <button class="send-btn" title="Up Arrow"><span class="send-arrow-icon">↑</span></button>
+            <button class="send-btn" title="Up Arrow Black"><span class="send-arrow-icon">⬆</span></button>
+            <button class="send-btn" title="Up Triangle"><span class="send-arrow-icon">▲</span></button>
+            <button class="send-btn" title="Up Double"><span class="send-arrow-icon">⇑</span></button>
+        </div>
+        
+        <div class="test-section">
+            <h3>4. Status Check:</h3>
+            <p>✅ Frontend: <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></p>
+            <p>✅ Backend: <a href="http://localhost:5000/health" target="_blank">http://localhost:5000/health</a></p>
+            <p>✅ DigiRaksha: <a href="http://localhost:5173" target="_blank">Open Main App</a></p>
+            
+            <script>
+                console.log('Send button arrow test loaded');
+                console.log('Arrow characters:', {
+                    rightArrow: '→',
+                    blackArrow: '➤', 
+                    heavyArrow: '➜',
+                    triangle: '▶'
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

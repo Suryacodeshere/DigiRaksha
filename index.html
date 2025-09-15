@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/digi-raksha-favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digi Raksha - Your Digital Payment Security Guardian</title>
+    <meta name="description" content="Digi Raksha - Your trusted digital payment security guardian. Protect yourself from UPI fraud with AI-powered assistance, real-time verification, and expert guidance." />
+    <meta name="keywords" content="UPI, fraud, security, payment, verification, chatbot" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Chatbase official embed: loads a fully working chatbot widget -->
+    <script>
+      window.embeddedChatbotConfig = {
+        chatbotId: 'p1M7VIGHEkbBCllb3F3kg',
+        domain: 'www.chatbase.co'
+      };
+    </script>
+    <script src="https://www.chatbase.co/embed.min.js" chatbotId="p1M7VIGHEkbBCllb3F3kg" domain="www.chatbase.co" defer></script>
+
+    <!-- Fix chatbot text color visibility -->
+    <style>
+      /* Chatbase widget text visibility fixes */
+      .chatbase-chat-widget input,
+      .chatbase-chat-widget textarea,
+      .chatbase-chat-widget .message-input,
+      .chatbase-chat-widget [contenteditable],
+      .chatbase-widget input,
+      .chatbase-widget textarea,
+      .chatbase-widget .message-input,
+      .chatbase-widget [contenteditable] {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+      }
+      
+      /* General chatbot text fixes */
+      iframe[src*="chatbase"] {
+        filter: none !important;
+      }
+      
+      /* Additional visibility fixes */
+      .chatbase-widget *,
+      .chatbase-chat-widget * {
+        color: #000000 !important;
+      }
+      
+      .chatbase-widget .user-message,
+      .chatbase-chat-widget .user-message {
+        background-color: #007bff !important;
+        color: #ffffff !important;
+      }
+      
+      .chatbase-widget .bot-message,
+      .chatbase-chat-widget .bot-message {
+        background-color: #f1f1f1 !important;
+        color: #000000 !important;
+      }
+    </style>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
