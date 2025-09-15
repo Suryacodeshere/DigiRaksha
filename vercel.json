@@ -1,4 +1,7 @@
 {
+  "name": "digi-raksha-public",
+  "version": 2,
+  "public": true,
   "rewrites": [
     {
       "source": "/(.*)",
