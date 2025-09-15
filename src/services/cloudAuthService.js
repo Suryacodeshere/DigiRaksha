@@ -58,9 +58,19 @@ class CloudAuthService {
   async testFirebaseConnection() {
     if (!db) throw new Error('Firebase not configured');
     
-    // Try to read from users collection
+    // Check if we're using demo config
+    const { apiKey } = db.app.options;
+    if (apiKey === 'demo-api-key' || apiKey.includes('demo')) {
+      throw new Error('Demo Firebase config detected');
+    }
+    
+    // Try to read from users collection with timeout
     const testQuery = query(collection(db, this.usersCollection));
-    await getDocs(testQuery);
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Firebase connection timeout')), 5000)
+    );
+    
+    await Promise.race([getDocs(testQuery), timeoutPromise]);
   }
 
   // Initialize local storage fallback

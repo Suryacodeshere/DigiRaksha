@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { updateProfile, updatePassword, signOut } from 'firebase/auth';
 import { ref, set, get } from 'firebase/database';
 import { auth, database } from '../config/firebase';
-import cloudAuthService from '../services/cloudAuthService';
 import { User, Mail, Lock, Save, LogOut, Shield, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import { userStatsService } from '../services/userStatsService';
 import { userDB } from '../services/userDatabase';

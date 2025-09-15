@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebase';
 import cloudFraudDB from './services/cloudFraudDatabase';
-import cloudAuthService from './services/cloudAuthService';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
@@ -25,17 +24,13 @@ function App() {
   const [activeComponent, setActiveComponent] = useState('upi-checker');
 
   useEffect(() => {
-    // Initialize cloud services
+    // Initialize cloud fraud database
     const initializeApp = async () => {
       try {
-        // Initialize both cloud services
-        await Promise.all([
-          cloudFraudDB.initialize(),
-          cloudAuthService.initialize()
-        ]);
-        console.log('✅ Cloud services initialized');
+        await cloudFraudDB.initialize();
+        console.log('✅ Cloud fraud database initialized');
       } catch (error) {
-        console.warn('⚠️ Cloud services initialization failed, using local fallback');
+        console.warn('⚠️ Cloud fraud database initialization failed, using local fallback');
       }
     };
     
@@ -81,32 +76,20 @@ function App() {
     setUser(user);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
+    // Clear demo user data
+    localStorage.removeItem('demoUser');
+    localStorage.removeItem('demoUserLoggedIn');
+    
+    // Try Firebase signOut
     try {
-      // Use cloud authentication service logout
-      await cloudAuthService.logoutUser();
-      
-      // Clear demo user data
-      localStorage.removeItem('demoUser');
-      localStorage.removeItem('demoUserLoggedIn');
-      
-      // Try Firebase signOut as fallback
-      try {
-        await auth.signOut();
-      } catch (error) {
-        console.warn('Firebase not configured');
-      }
-      
-      setUser(null);
-      setActiveComponent('upi-checker');
+      auth.signOut();
     } catch (error) {
-      console.error('Logout error:', error);
-      // Force logout even if cloud service fails
-      localStorage.removeItem('demoUser');
-      localStorage.removeItem('demoUserLoggedIn');
-      setUser(null);
-      setActiveComponent('upi-checker');
+      console.warn('Firebase not configured');
     }
+    
+    setUser(null);
+    setActiveComponent('upi-checker');
   };
 
   const renderComponent = () => {

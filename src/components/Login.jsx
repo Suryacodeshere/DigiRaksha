@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import cloudAuthService from '../services/cloudAuthService';
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react';
 import DigiRakshaLogo from './DigiRakshaLogo';
 
@@ -31,19 +30,25 @@ const Login = ({ onLogin, onSwitchToSignup, onSwitchToForgotPassword }) => {
 
     setLoading(true);
     try {
-      // Try cloud authentication first
+      // Try Firebase first
       try {
-        const authenticatedUser = await cloudAuthService.loginUser(formData.email, formData.password);
-        
-        // Set user data in localStorage for session management
-        localStorage.setItem('demoUser', JSON.stringify(authenticatedUser));
-        localStorage.setItem('demoUserLoggedIn', 'true');
-        
-        onLogin(authenticatedUser);
+        const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+        onLogin(userCredential.user);
         return;
-      } catch (cloudAuthError) {
-        console.log('Cloud auth error:', cloudAuthError.message);
-        setError(cloudAuthError.message);
+      } catch (firebaseError) {
+        console.warn('Firebase not configured, using demo mode');
+      }
+      
+      // Demo mode - authenticate against local user database only
+      const userDBModule = await import('../services/userDatabase');
+      try {
+        const authedUser = userDBModule.userDB.authenticateUser(formData.email, formData.password);
+        localStorage.setItem('demoUser', JSON.stringify(authedUser));
+        localStorage.setItem('demoUserLoggedIn', 'true');
+        onLogin(authedUser);
+        return;
+      } catch (authErr) {
+        setError(authErr.message || 'Invalid email or password');
         return;
       }
     } catch (err) {
